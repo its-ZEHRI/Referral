@@ -62,7 +62,7 @@ $(document).ready(function () {
                         text: resp.message,
                         backdrop: '#eee'
                     })
-                    
+
                 }
             },
             error: function (response) {
@@ -269,7 +269,7 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text:  resp.message,
+                        text: resp.message,
                         backdrop: '#eee'
                     })
 
@@ -285,8 +285,10 @@ $(document).ready(function () {
 
 
     // send invitation form
-    $(this).on('click', '#send_invitation_btn', function (event) {
+    $(this).on('click', '#send_invitation_link', function (event) {
         // event.preventDefault()
+        $('#loader_wrapper').removeClass('d-none')
+
         var formdata = {
             'sender_number': $('#sender_number').val(),
             'receiver_number': $('#receiver_number').val(),
@@ -301,9 +303,15 @@ $(document).ready(function () {
             success: function (response) {
                 const resp = JSON.parse(response);
                 console.log(resp);
-                if (resp.code == 200 && resp.status == 'success') {
+                if (resp == 'ok') {
+                    // $("#myAnchor").attr("href", "https://www.example.com/new-url");
+                    // $('#send_invitation_link').click()
+                    $('#loader_wrapper').addClass('d-none')
+
                 }
                 else {
+                    $('#loader_wrapper').addClass('d-none')
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -313,12 +321,21 @@ $(document).ready(function () {
                 }
                 $('#sender_number').val('')
                 $('#receiver_number').val('')
+                $('#loader_wrapper').addClass('d-none')
+
             },
             error: function (response) {
                 console.log(response);
             },
         })
     })
+
+    $("#receiver_number").on("input", function () {
+        var phoneNumber = $(this).val();
+        var body = $('#invite_text_body').text()
+        var hrefValue = "sms://" + phoneNumber + "?&body=" + body + "";
+        $("#send_invitation_link").attr("href", hrefValue);
+    });
 
 
 })

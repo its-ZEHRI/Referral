@@ -1,0 +1,10 @@
+[08-Aug-2023 12:16:35 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "user" in /home/l8x0cbaa8922/public_html/Referral/index.php:4
+Stack trace:
+#0 {main}
+  thrown in /home/l8x0cbaa8922/public_html/Referral/index.php on line 4
+[08-Aug-2023 12:16:50 UTC] PHP Warning:  Undefined array key "user" in /home/l8x0cbaa8922/public_html/Referral/index.php on line 4
+[08-Aug-2023 12:17:02 UTC] PHP Warning:  Undefined array key "user" in /home/l8x0cbaa8922/public_html/Referral/index.php on line 4
+[08-Aug-2023 12:17:46 UTC] PHP Warning:  Undefined array key "user" in /home/l8x0cbaa8922/public_html/Referral/index.php on line 8
+[08-Aug-2023 12:18:45 UTC] PHP Warning:  Undefined array key "user" in /home/l8x0cbaa8922/public_html/Referral/index.php on line 9
+[08-Aug-2023 12:19:24 UTC] PHP Warning:  Undefined array key "user" in /home/l8x0cbaa8922/public_html/Referral/index.php on line 9
+[08-Aug-2023 12:47:29 UTC] PHP Warning:  Undefined array key "user" in /home/l8x0cbaa8922/public_html/Referral/index.php on line 10

@@ -1,0 +1,63 @@
+
+<body style="background-color:#f2f2f2;"><br><br><br>
+<div style="padding:20px;margin:auto;width:700px;border-style:solid;border-width:1px;background:#ffffff;border-color:#d2d2d2;">
+    <br>
+    <strong><center><h2> ProductProxy App Documentation</h2></center></strong>
+    <br><br>
+    
+    This App gives to the RoadCube POS the products selected by the cashier. The first step is to synchronize the products at the cashier with RoadCube Platform. This can be done with User Interface (point1) or via web service (point2). Then with the point 3 we can send in real time the products to the RoadCube POS. Point 4 is used only by RoadCube POS.
+    <hr>
+    1) <b>Synschronizing Products (User Interface)</b>
+   
+    <br><br>
+    URL:<br>
+    <div style="width:350px;top:100px;border-style:solid;border-width:1px;background:#f0f0f0;border-color:#d2d2d2;">http://roadcu.be/ProductsProxy/syncProductsUI.php</div>
+    <br><br>
+    You can easily upload the products by giving the JSON in the textarea and click submit. Products are synced with RoadCube.
+    
+    <br><br><hr><br>
+    2) <b>Synschronizing Products (REST Web Service)</b>
+    <br><br>
+    URL:<br>
+    <div style="width:350px;top:100px;border-style:solid;border-width:1px;background:#f0f0f0;border-color:#d2d2d2;">http://roadcu.be/ProductsProxy/syncProducts.php?storeID=XXXXX&token=YYYYYY&products={"ProductID1":Price1,"ProductID2":Price2}</div>
+    <br>
+    "products" param example format: {"323":23.2,"442":99.09} for 2 products with ID 232(price $23.2) and ID 442(price $99.09)
+
+<br><br>
+Important* for the prices use dot(.) not comma(,)
+    <br><br>
+    SUCCESS response:<br>
+    <div style="width:350px;top:100px;border-style:solid;border-width:1px;background:#f0f0f0;border-color:#d2d2d2;">SUCCESS</div>
+    <br><br>
+    FAIL response:<br>
+    <div style="width:350px;top:100px;border-style:solid;border-width:1px;background:#f0f0f0;border-color:#d2d2d2;">FAIL</div>
+    
+    <hr>
+    3) <b>Send Product Request (REST Web Service)</b> <br><br>
+
+    This web service is used by cashier machines to send the products selected.
+    <br><br>
+    URL:<br>
+    <div style="width:350px;top:100px;border-style:solid;border-width:1px;background:#f0f0f0;border-color:#d2d2d2;">https://roadcu.be/ProductsProxy/REQUEST.php?storeID=XXXXX&token=YYYYYY&products=Product1,Product2</div>
+    <br><br>
+    SUCCESS response:<br>
+    <div style="width:350px;top:100px;border-style:solid;border-width:1px;background:#f0f0f0;border-color:#d2d2d2;">SUCCESS</div>
+    <br><br>
+    FAIL response:<br>
+    <div style="width:350px;top:100px;border-style:solid;border-width:1px;background:#f0f0f0;border-color:#d2d2d2;">FAIL</div>
+    
+        <hr>
+        <br>
+    4) <b>Get Product Request (REST Web Service)</b><br><br>
+    This web service is read by the RoadCube POS when products are needed to be obtained during a transaction process.
+    <br><br>
+    URL:<br>
+    <div style="width:350px;top:100px;border-style:solid;border-width:1px;background:#f0f0f0;border-color:#d2d2d2;">https://roadcu.be/ProductsProxy/checkRequests.php?storeID=XXXXX</div>
+    <br><br>
+    SUCCESS response:<br>
+    <div style="width:350px;top:100px;border-style:solid;border-width:1px;background:#f0f0f0;border-color:#d2d2d2;">Product1,Product2,Product3</div>
+    <br><br>
+    FAIL response:<br>
+    <div style="width:350px;top:100px;border-style:solid;border-width:1px;background:#f0f0f0;border-color:#d2d2d2;">NULL</div>
+    
+</div>

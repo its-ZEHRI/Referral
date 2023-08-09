@@ -256,6 +256,7 @@ $(document).ready(function () {
                         confirmButtonText: 'Ok',
                     }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */
+                        window.location.href = "/Referral/refpoints.php";
                         location.reload();
                     })
                 }
@@ -281,5 +282,43 @@ $(document).ready(function () {
             },
         })
     })
+
+
+    // send invitation form
+    $(this).on('click', '#send_invitation_btn', function (event) {
+        // event.preventDefault()
+        var formdata = {
+            'sender_number': $('#sender_number').val(),
+            'receiver_number': $('#receiver_number').val(),
+            'done': 0,
+            'op': 'send_invitation'
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: `../processor/ajaxprocessor.php`,
+            data: formdata,
+            success: function (response) {
+                const resp = JSON.parse(response);
+                console.log(resp);
+                if (resp.code == 200 && resp.status == 'success') {
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: resp.message,
+                        backdrop: '#eee'
+                    })
+                }
+                $('#sender_number').val('')
+                $('#receiver_number').val('')
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        })
+    })
+
 
 })

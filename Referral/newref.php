@@ -4,8 +4,8 @@ include('../processor/processor.php');
 if (isset($_POST['submit_referral_form'])) {
     // echo 'hello';
     $resp = $obj->storeReferralFormData();
-    header("location: index.php?d=".$resp->id);
-    echo "<pre>" . var_export($resp,true) . "</pre>";
+    header("location: index.php?id=" . $resp->id);
+    echo "<pre>" . var_export($resp, true) . "</pre>";
     die;
 }
 ?>
@@ -34,41 +34,49 @@ if (isset($_POST['submit_referral_form'])) {
         <div class="col-md-6">
             <h1 class="text-center mb-4">Referral Form</h1>
 
-            <form action="newref.php" method="POST" enctype="multipart/form-data">
+            <form action="newref.php" method="POST" enctype="multipart/form-data" class="px-2">
 
-                <div class="form-group mb-4">
+                <div class="form-group mb-2">
                     <label class="form-label mb-0">Token</label>
                     <input type="text" class="form-control" placeholder="Token" required name="token">
                 </div>
 
-                <div class="form-group mb-4">
+                <div class="form-group mb-2">
                     <label class="form-label mb-0">Points</label>
                     <input type="text" class="form-control" placeholder="Points" required name="points">
                 </div>
 
-                <div class="form-group mb-4">
+                <div class="form-group mb-2">
                     <label class="form-label mb-0">Regisgter Url</label>
                     <input type="text" class="form-control" placeholder="Register url" required name="register_url">
                 </div>
 
-                <div class="form-group mb-4">
+                <div class="form-group mb-2">
                     <label class="form-label mb-0" for="image">Image</label>
                     <input type="file" class="form-control" value="" name="image">
                 </div>
 
-                <div class="form-group mb-4">
+                <div class="form-group mb-2">
                     <label class="form-label mb-0" for="image">Text one</label>
                     <input type="text" class="form-control" value="" name="text_one">
                 </div>
 
-                <div class="form-group mb-4">
+                <div class="form-group mb-2">
                     <label class="form-label mb-0" for="image">Text two</label>
                     <input type="text" class="form-control" value="" name="text_two">
                 </div>
 
-                <div class="form-group mb-4">
+                <div class="form-group mb-2">
                     <label class="form-label mb-0" for="image">Text three</label>
                     <input type="text" class="form-control" value="" name="text_three">
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label mb-0" for="image">Invite text</label>
+                    <input type="text" class="form-control" value="" name="invite_text">
+                </div>
+                <div class="form-group mb-4">
+                    <label class="form-label mb-0" for="image">Invite button text</label>
+                    <input type="text" class="form-control" value="" name="invite_btn_text">
                 </div>
 
                 <div>

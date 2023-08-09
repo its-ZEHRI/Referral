@@ -319,6 +319,8 @@ class getData
         $text_one = $_POST['text_one'];
         $text_two = $_POST['text_two'];
         $text_three = $_POST['text_three'];
+        $invite_text = $_POST['invite_text'];
+        $invite_btn_text = $_POST['invite_btn_text'];
         $filename = $_FILES["image"]["name"];
         $tempname = $_FILES["image"]["tmp_name"];
 
@@ -326,15 +328,15 @@ class getData
         if (move_uploaded_file($tempname, $image_url)) {
         }
 
-        $query = "INSERT INTO referral_form(token,points,register_url,image,text_one,text_two,text_three) VALUES(?,?,?,?,?,?,?)";
+        $query = "INSERT INTO referral_form(token,points,register_url,image,text_one,text_two,text_three,invite_text,invite_btn_text) VALUES(?,?,?,?,?,?,?,?,?)";
         $stmt = $this->db_conn->prepare($query);
-        $resp = $stmt->execute(array($token,$points,$register_url, $image_url,$text_one,$text_two,$text_three));
+        $resp = $stmt->execute(array($token, $points, $register_url, $image_url, $text_one, $text_two, $text_three, $invite_text, $invite_btn_text));
         if (!$resp) {
             return "Some error occured, please try later.";
         }
 
         $last_id = $this->db_conn->lastInsertId();
-        $query = "SELECT * from newForm WHERE id = ? LIMIT 1";
+        $query = "SELECT * from referral_form WHERE id = ? LIMIT 1";
         $stmt = $this->db_conn->prepare($query);
         $stmt->execute(array($last_id));
 
@@ -345,16 +347,67 @@ class getData
         }
     }
 
+    public function getReferralData($id)
+    {
+        $query = "SELECT * from referral_form WHERE id = ? LIMIT 1";
+        $stmt = $this->db_conn->prepare($query);
 
-    public function storeRequest(){
+        $stmt->execute(array($id));
+        if ($stmt->rowCount() < 1) {
+            return [];
+        } else {
+            return $stmt->fetch(PDO::FETCH_OBJ);
+        }
+    }
+
+
+    public function invitationRequest()
+    {
         $sender_number = $_POST['sender_number'];
         $receiver_number = $_POST['receiver_number'];
-        $query = "INSERT INTO requests(sender_number,receiver_number) VALUES(?,?)";
+        $query = "INSERT INTO requests(sender_number,receiver_number,done) VALUES(?,?,?)";
         $stmt = $this->db_conn->prepare($query);
-        $resp = $stmt->execute(array($sender_number,$receiver_number));
+        $resp = $stmt->execute(array($sender_number, $receiver_number, 0));
         if (!$resp) {
             return "Some error occured, please try later.";
         }
         return 'ok';
+    }
+
+
+
+    public function newfun()
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "https://api.roadcube.io/v1/p/stores/store_id/transactions/new");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+        curl_setopt($ch, CURLOPT_POST, TRUE);
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+            \"user\": \"6933333333\",
+            \"custom_points_provided\": true,
+            \"custom_points\": 5,
+            \"products\": [
+                {
+                \"product_id\": 1561,
+                \"retail_price\": 1,
+                \"quantity\": 1
+                }
+            ]
+            }");
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            "Content-Type: application/json",
+            "Accept: application/json",
+            "X-Api-Token: {X-Api-Token}"
+        ));
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        var_dump($response);
     }
 }

@@ -28,4 +28,11 @@
         $resp = $obj->finalRegistration();
         echo json_encode($resp);
     }
+    elseif($op == 'send_invitation'){
+        // echo json_encode(['message' => "working"]);
+        // die;
+        $resp = $obj->invitationRequest();
+        echo json_encode($resp);
+    }
+    
 ?>

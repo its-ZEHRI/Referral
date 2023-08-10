@@ -1,13 +1,16 @@
 <?php
 include('../processor/processor.php');
-
+$baseUrl = '';
 if (isset($_POST['submit_referral_form'])) {
-    // echo 'hello';
     $resp = $obj->storeReferralFormData();
-    header("location: index.php?id=" . $resp->id);
-    echo "<pre>" . var_export($resp, true) . "</pre>";
-    die;
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'];
+    $currentDir = dirname($_SERVER['PHP_SELF']); // Get the current directory path
+
+    $baseUrl = $protocol . $host . $currentDir . "/index.php?id=" . $resp->id;
 }
+
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -33,7 +36,9 @@ if (isset($_POST['submit_referral_form'])) {
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <h1 class="text-center mb-4">Referral Form</h1>
-
+            <div class="text-center">
+                <a href="<?php echo $baseUrl ?>" style="font-size: 20px;"><?php echo $baseUrl ?></a>
+            </div>
             <form action="newref.php" method="POST" enctype="multipart/form-data" class="px-2">
 
                 <div class="form-group mb-2">

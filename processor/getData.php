@@ -324,9 +324,13 @@ class getData
         $filename = $_FILES["image"]["name"];
         $tempname = $_FILES["image"]["tmp_name"];
 
-        $image_url = "assets/images/" . $filename;
+        $image_url = "../assets/images/" . $filename;
         if (move_uploaded_file($tempname, $image_url)) {
         }
+
+
+
+
 
         $query = "INSERT INTO referral_form(token,points,register_url,image,text_one,text_two,text_three,invite_text,invite_btn_text) VALUES(?,?,?,?,?,?,?,?,?)";
         $stmt = $this->db_conn->prepare($query);

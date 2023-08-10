@@ -20,7 +20,7 @@ $resp = $obj->getReferralData($id);
     <center>
         <form>
             <div style='background-color:#ffffff;border-radius:5px;width:600px;margin:10px;padding:30px;'>
-                <img src='../assets/images/Alexandroupoli souvenirs-07.jpg' width="20%"></img>
+                <img src='<?php echo $resp->image ?>' width="20%"></img>
                 <?php echo $resp->text_one ?>
 
             </div>
@@ -35,9 +35,9 @@ $resp = $obj->getReferralData($id);
                 <?php echo $resp->text_three ?><br>
                 <input id="receiver_number" type='text' placeholder="phone" name="receiver_number" style="height:38px;" />
                 <!-- <button id="send_invitation_btn" type="submit" name="submit" class="text-white" value="Invite" style='background-color:#000000;padding:10px;margin:4px;'> <?php echo $resp->invite_btn_text ?></button> -->
-                <p class="d-none" id="invite_text_body"><?php echo $resp->invite_text ?></p>
+                <span class="d-none" id="invite_text_body"><?php echo $resp->invite_text ?></span>
 
-                <a id="send_invitation_link" class="d-non" style='background-color:#000000;font-color:#ffffff;padding:10px;margin:4px' href="sms://+14035550185?&amp;body=">
+                <a id="send_invitation_link" class="d-non" style='background-color:#000000;font-color:#ffffff;padding:10px;margin:4px' href="javascript:void(0)">
                     <?php echo $resp->invite_btn_text ?>
                 </a>
             </div>

@@ -369,6 +369,15 @@ class getData
     {
         $sender_number = $_POST['sender_number'];
         $receiver_number = $_POST['receiver_number'];
+
+        $query = "SELECT * from requests WHERE sender_number = ? AND receiver_number = ? LIMIT 1";
+        $stmt = $this->db_conn->prepare($query);
+        $stmt->execute(array($sender_number, $receiver_number)); 
+
+        if ($stmt->rowCount() > 0) {
+            return 'ok';
+        }
+
         $query = "INSERT INTO requests(sender_number,receiver_number,done) VALUES(?,?,?)";
         $stmt = $this->db_conn->prepare($query);
         $resp = $stmt->execute(array($sender_number, $receiver_number, 0));

@@ -370,9 +370,9 @@ class getData
         $sender_number = $_POST['sender_number'];
         $receiver_number = $_POST['receiver_number'];
 
-        $query = "SELECT * from requests WHERE sender_number = ? AND receiver_number = ? LIMIT 1";
+        $query = "SELECT * from requests WHERE receiver_number = ? LIMIT 1";
         $stmt = $this->db_conn->prepare($query);
-        $stmt->execute(array($sender_number, $receiver_number)); 
+        $stmt->execute(array($receiver_number)); 
 
         if ($stmt->rowCount() > 0) {
             return 'ok';
@@ -389,8 +389,24 @@ class getData
 
 
 
-    public function newfun()
+    public function giveRefpoints($receiver_number,$company_id)
     {
+        $query = "SELECT * from requests WHERE receiver_number = ? LIMIT 1";
+        $stmt = $this->db_conn->prepare($query);
+        $stmt->execute(array($receiver_number));
+
+        if($stmt->rowCount() < 1){
+            return "Invalid number";
+        }
+        $data = $stmt->fetch(PDO::FETCH_OBJ);
+
+        echo "<pre>". var_export($data,true) . "</pre>";
+
+        if($data->done == 1){
+            return "Already points added.";
+        }
+
+        $response = $this->initalizeApiKey($company_id);
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, "https://api.roadcube.io/v1/p/stores/store_id/transactions/new");
@@ -400,26 +416,32 @@ class getData
         curl_setopt($ch, CURLOPT_POST, TRUE);
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, "{
-            \"user\": \"6933333333\",
+            \"user\": \"$data->sender_number\",
             \"custom_points_provided\": true,
-            \"custom_points\": 5,
-            \"products\": [
-                {
-                \"product_id\": 1561,
-                \"retail_price\": 1,
-                \"quantity\": 1
-                }
-            ]
+            \"custom_points\": 5
             }");
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             "Content-Type: application/json",
             "Accept: application/json",
-            "X-Api-Token: {X-Api-Token}"
+            "X-Api-Token: ". $this->api_key
         ));
 
         $response = curl_exec($ch);
         curl_close($ch);
+
+        $response = json_decode($response);
+
+        if($response->code == 200 && $response->success == 'success'){
+            $query = "UPDATE requests SET done = ? WHERE receiver_number = ? LIMIT 1";
+            $stmt = $this->db_conn->prepare($query);
+            $stmt->execute(array(1, $receiver_number));
+
+            return "Points Added to user.";
+        }
+
+        return $response->message;
+        
 
         var_dump($response);
     }

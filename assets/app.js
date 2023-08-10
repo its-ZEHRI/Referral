@@ -256,8 +256,8 @@ $(document).ready(function () {
                         confirmButtonText: 'Ok',
                     }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */
-                        window.location.href = "/Referral/refpoints.php";
-                        location.reload();
+                        window.location.href = "/Referral/refpoints.php?number="+$('#number').val()+"&cumpany_id="+$('#company_id').val();
+                        location.reload();I
                     })
                 }
                 else {

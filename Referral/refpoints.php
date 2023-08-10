@@ -1,6 +1,10 @@
 <?php
 include('../processor/processor.php');
-$id = $_GET['id'];
+$reciver = $_GET['number'];
+$company_id = $_GET['company_id'];
+
+$obj->giveRefpoints($reciver,$company_id);
+die;
 // echo "<pre>" . var_export($id,true) . "</pre>";
 // die;
 // $resp = $obj->getPoints();

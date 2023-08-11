@@ -37,7 +37,7 @@ $resp = $obj->getReferralData($id);
                 <!-- <button id="send_invitation_btn" type="submit" name="submit" class="text-white" value="Invite" style='background-color:#000000;padding:10px;margin:4px;'> <?php echo $resp->invite_btn_text ?></button> -->
                 <span class="d-none" id="invite_text_body"><?php echo $resp->invite_text ?></span>
 
-                <a id="send_invitation_link" class="d-non" style='background-color:#000000;font-color:#ffffff;padding:10px;margin:4px' href="javascript:void(0)">
+                <a id="send_invitation_link" class="d-non" style='background-color:#000000;color:#ffffff;padding:10px;margin:4px' href="javascript:void(0)">
                     <?php echo $resp->invite_btn_text ?>
                 </a>
             </div>

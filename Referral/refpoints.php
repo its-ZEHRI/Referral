@@ -3,11 +3,10 @@ include('../processor/processor.php');
 $reciver = $_GET['number'];
 $company_id = $_GET['company_id'];
 
-$obj->giveRefpoints($reciver,$company_id);
-die;
-// echo "<pre>" . var_export($id,true) . "</pre>";
+$resp =  $obj->giveRefpoints($reciver,$company_id);
+
+// echo "<pre>" . var_export($resp,true) . "</pre>";
 // die;
-// $resp = $obj->getPoints();
 ?>
 <!doctype html>
 <html lang="en">
@@ -22,7 +21,9 @@ die;
 
 <body>
    
-
+    <div class="text-center p-4">
+        <h3><?php echo $resp ?></h3>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

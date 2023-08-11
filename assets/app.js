@@ -153,16 +153,13 @@ $(document).ready(function () {
 
     // form submit
     $(this).on('click', '#submit_form', function (event) {
+        // $baseUrl = $('#base_url').text();
+        // console.log($baseUrl);
+        // return 
         event.preventDefault()
-
         $('#loader_wrapper').removeClass('d-none')
 
         if ($('#password').val() == '') {
-            // Swal.fire(
-            //     'Validation Error',
-            //     'Password Field is required!',
-            //     'error'
-            // )
             Swal.fire({
                 icon: 'error',
                 title: 'Validation Error',
@@ -173,11 +170,6 @@ $(document).ready(function () {
             return;
         }
         if ($('#email').val() == '') {
-            // Swal.fire(
-            //     'Validation Error',
-            //     'Password Field is required!',
-            //     'error'
-            // )
             Swal.fire({
                 icon: 'error',
                 title: 'Validation Error',
@@ -189,11 +181,6 @@ $(document).ready(function () {
         }
 
         if ($('#password').val() != $('#c_password').val()) {
-            // Swal.fire(
-            //     'Validation Error',
-            //     'Password confirmation does not match!',
-            //     'error'
-            // )
             Swal.fire({
                 icon: 'error',
                 title: 'Validation Error',
@@ -214,11 +201,6 @@ $(document).ready(function () {
             }
         }
         if (selectedValue == null) {
-            // Swal.fire(
-            //     'Validation Error',
-            //     'Select your gender !',
-            //     'error'
-            // )
             Swal.fire({
                 icon: 'error',
                 title: 'Validation Error',
@@ -256,16 +238,15 @@ $(document).ready(function () {
                         confirmButtonText: 'Ok',
                     }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */
-                        window.location.href = "/Referral/refpoints.php?number="+$('#number').val()+"&cumpany_id="+$('#company_id').val();
-                        location.reload();I
+                        $baseUrl = $('#base_url').text();
+                        $url = $baseUrl + "?number=" + $('#number').val() + "&company_id=" + $('#company_id').val()
+                        console.log($url);
+                        window.location.href = $url;
+                        $('#loader_wrapper').removeClass('d-none')
+                        // location.reload();
                     })
                 }
                 else {
-                    // Swal.fire(
-                    //     'Error',
-                    //     resp.message,
-                    //     'error'
-                    // )
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',

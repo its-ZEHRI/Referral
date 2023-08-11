@@ -400,8 +400,6 @@ class getData
         }
         $data = $stmt->fetch(PDO::FETCH_OBJ);
 
-        echo "<pre>". var_export($data,true) . "</pre>";
-
         if($data->done == 1){
             return "Already points added.";
         }
@@ -439,10 +437,10 @@ class getData
 
             return "Points Added to user.";
         }
+        // return $response;
 
         return $response->message;
         
 
-        var_dump($response);
     }
 }

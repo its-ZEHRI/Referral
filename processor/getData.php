@@ -398,7 +398,7 @@ class getData
 
         if($stmt->rowCount() < 1){
             return [ 
-                'success' => false,
+                'status' => "error",
                 "message" => "User are Not Invited." 
             ];
         }
@@ -408,7 +408,7 @@ class getData
 
         if($data->done == 1){
             return [ 
-                'success' => false,
+                'status' => "error",
                 "message" => "Already points added." 
             ];
         }
@@ -416,7 +416,7 @@ class getData
         $response = $this->initalizeApiKey($company_id);
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, "https://api.roadcube.io/v1/p/stores/store_id/transactions/new");
+        curl_setopt($ch, CURLOPT_URL, "https://api.roadcube.io/v1/p/stores/2773/transactions/new");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
 
@@ -445,14 +445,12 @@ class getData
             $stmt->execute(array(1, $receiver_number));
 
             return [ 
-                'success' => true,
+                'status' => "success",
                 "message" => "Points Added to user." 
             ];
         }
 
         return $response;
         
-
-        var_dump($response);
     }
 }

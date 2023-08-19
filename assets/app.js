@@ -371,16 +371,14 @@ $(document).ready(function () {
                 console.log(resp)
                 $('#loader_wrapper').addClass('d-none')
                 if (resp.status == 'success') {
-                    
-    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Add Points Success',
+                        text: resp.message,
+                        backdrop: '#eee'
+                    }) 
                 }
                 else {
-                    $('#loader_wrapper').addClass('d-none')
-                    // Swal.fire(
-                    //     'Validation Error!',
-                    //     resp.message,
-                    //     'error'
-                    // )
                     Swal.fire({
                         icon: 'error',
                         title: 'Add Points Error',

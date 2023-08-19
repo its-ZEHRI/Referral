@@ -238,11 +238,13 @@ $(document).ready(function () {
                         confirmButtonText: 'Ok',
                     }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */
-                        $baseUrl = $('#base_url').text();
-                        $url = $baseUrl + "?number=" + $('#number').val() + "&company_id=" + $('#company_id').val()
-                        console.log($url);
-                        window.location.href = $url;
-                        $('#loader_wrapper').removeClass('d-none')
+                        var resp = addPoints()
+
+//                         $baseUrl = $('#base_url').text();
+//                         $url = $baseUrl + "?number=" + $('#number').val() + "&company_id=" + $('#company_id').val()
+//                         console.log($url);
+//                         window.location.href = $url;
+//                         $('#loader_wrapper').removeClass('d-none')
                         // location.reload();
                     })
                 }
@@ -322,5 +324,65 @@ $(document).ready(function () {
         $("#send_invitation_link").attr("href", hrefValue);
     });
 
+    $(this).on('click', '#ref_button', function (event) { 
+        addPoints();
+     })
+
+    function addPoints(){
+        console.log('call recived');
+        $('#loader_wrapper').removeClass('d-none')
+        var formdata = {
+            'company_id': $('#company_id').val(),
+            'receiver_number': $('#number').val(),
+            'op': 'give_refpoints'
+        }
+        // var formdata = {
+        //     'company_id': "6",
+        //     'receiver_number': "3441921117",
+        //     'op': 'give_refpoints'
+        // }
+        console.log(formdata)
+        $.ajax({
+            type: 'POST',
+            url: `processor/ajaxprocessor.php`,
+            data: formdata,
+            success: function (response) {
+                const resp = JSON.parse(response);
+                // JSON.stringify(objToArray(json_data))
+                console.log(resp)
+                $('#loader_wrapper').addClass('d-none')
+                if (resp.status == 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Add Points Success',
+                        text: resp.message,
+                        backdrop: '#eee'
+                    }).then((result) => {
+                        
+                        window.location.href = "/Referral/refpoints.php";
+                        
+                    })
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Add Points Error',
+                        text: resp.message,
+                        backdrop: '#eee'
+                    })
+    
+                }
+            },
+            error: function (response) {
+                $('#loader_wrapper').addClass('d-none')
+                console.log(response)
+                alert(response)
+            },
+        }) 
+    }
+
 
 })
+
+
+

@@ -27,7 +27,7 @@ class getData
         }
         $form_data = $stmt->fetch(PDO::FETCH_OBJ);
         $this->api_key = $form_data->company_token;
-        return true;
+        return $form_data;
     }
 
     public function getCountries()
@@ -249,6 +249,7 @@ class getData
     public function addNewFormData()
     {
         $company_token = $_POST['company_token'];
+        $store_id = $_POST['store_id'];
         $button_background_color = $_POST['button_background_color'];
         $button_text_color = $_POST['button_text_color'];
         $background_color = $_POST['background_color'];
@@ -276,14 +277,14 @@ class getData
         if (move_uploaded_file($tempname, $image_url)) {
         }
 
-        $query = "INSERT INTO newForm(company_token, button_background_color, button_text_color, background_color, 
+        $query = "INSERT INTO newForm(store_id,company_token, button_background_color, button_text_color, background_color, 
                                     title,image_url,phone_text, verification_text, verification_btn_text, full_name_text, 
                                     email_text, birthday_text, gender_text, gender_one_text, gender_two_text, 
                                     gender_other_text,submit_btn_text, terms_text, sms_popup_text) 
-                        VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $this->db_conn->prepare($query);
         $resp = $stmt->execute(array(
-            $company_token, $button_background_color, $button_text_color, $background_color,
+            $store_id,$company_token, $button_background_color, $button_text_color, $background_color,
             $title, $image_url, $phone_text, $verification_text, $verification_btn_text, $full_name_text,
             $email_text, $birthday_text, $gender_text, $gender_one_text, $gender_two_text,
             $gender_other_text, $submit_btn_text, $terms_text, $sms_popup_text
@@ -293,7 +294,7 @@ class getData
             return "Some error occured, please try later.";
         }
         $last_id = $this->db_conn->lastInsertId();
-        echo "<pre>" . var_export($last_id, true) . "</pre>";
+        // echo "<pre>" . var_export($last_id, true) . "</pre>";
 
         $query = "UPDATE newForm SET unique_identifier = ? WHERE id = ? LIMIT 1";
         $stmt = $this->db_conn->prepare($query);
@@ -387,37 +388,49 @@ class getData
         return 'ok';
     }
 
-
-
-    public function giveRefpoints($receiver_number,$company_id)
+    public function giveRefpoints()
     {
+        $receiver_number = $_POST['receiver_number'];
+        $company_id = $_POST['company_id'];
+
         $query = "SELECT * from requests WHERE receiver_number = ? LIMIT 1";
         $stmt = $this->db_conn->prepare($query);
         $stmt->execute(array($receiver_number));
 
         if($stmt->rowCount() < 1){
-            return "Invalid number";
+            return [ 
+                'status' => "error",
+                "message" => "User are Not Invited." 
+            ];
         }
         $data = $stmt->fetch(PDO::FETCH_OBJ);
 
         if($data->done == 1){
-            return "Already points added.";
+            return [ 
+                'status' => "error",
+                "message" => "Already points added." 
+            ];
         }
 
         $response = $this->initalizeApiKey($company_id);
+        $store_id = $response->store_id;
+        // return ['number' => $store_id];
+
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, "https://api.roadcube.io/v1/p/stores/store_id/transactions/new");
+        curl_setopt($ch, CURLOPT_URL, "https://api.roadcube.io/v1/p/stores/".$store_id."/transactions/new");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
 
         curl_setopt($ch, CURLOPT_POST, TRUE);
 
+        // \"user\": \"$data->sender_number\",
+        // \"custom_points_provided\": true,
+        //     \"custom_points\": \"5\"
         curl_setopt($ch, CURLOPT_POSTFIELDS, "{
             \"user\": \"$data->sender_number\",
-            \"custom_points_provided\": true,
-            \"custom_points\": 5
-            }");
+            \"amount\": \"5\"
+        }");
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             "Content-Type: application/json",
@@ -435,12 +448,14 @@ class getData
             $stmt = $this->db_conn->prepare($query);
             $stmt->execute(array(1, $receiver_number));
 
-            return "Points Added to user.";
+            return [ 
+                'status' => "success",
+                "message" => "Points Added to user." 
+            ];
         }
         // return $response;
 
-        return $response->message;
+        return $response;
         
-
     }
 }

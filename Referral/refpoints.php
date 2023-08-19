@@ -1,13 +1,3 @@
-<?php
-include('../processor/processor.php');
-$reciver = $_GET['number'];
-$company_id = $_GET['company_id'];
-
-$resp =  $obj->giveRefpoints($reciver,$company_id);
-
-// echo "<pre>" . var_export($resp,true) . "</pre>";
-// die;
-?>
 <!doctype html>
 <html lang="en">
 
@@ -22,7 +12,7 @@ $resp =  $obj->giveRefpoints($reciver,$company_id);
 <body>
    
     <div class="text-center p-4">
-        <h3><?php echo $resp ?></h3>
+        Ref Points
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>

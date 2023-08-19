@@ -96,6 +96,10 @@ if (isset($_POST['submitNewForm'])) {
             <input type="text" class="form-control"  value="" required name="company_token">
           </div>
           <div class="form-group mb-4">
+            <label class="form-label mb-0">Store Id</label>
+            <input type="text" class="form-control"  value="" required name="store_id">
+          </div>
+          <div class="form-group mb-4">
             <label class="form-label mb-0">Button Background Color</label>
             <input type="color" class="form-control" id="" value="" required name="button_background_color">
           </div>

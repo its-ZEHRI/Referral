@@ -34,5 +34,11 @@
         $resp = $obj->invitationRequest();
         echo json_encode($resp);
     }
+    elseif($op == 'give_refpoints'){
+        // echo json_encode(['message' => "working"]);
+        // die;
+        $resp = $obj->giveRefpoints();
+        echo json_encode($resp);
+    }
     
 ?>

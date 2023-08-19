@@ -341,5 +341,48 @@ $(document).ready(function () {
         $("#send_invitation_link").attr("href", hrefValue);
     });
 
+    function addPoints(){
+        $.ajax({
+            type: 'POST',
+            url: `processor/ajaxprocessor.php`,
+            data: formdata,
+            success: function (response) {
+                const resp = JSON.parse(response);
+                // JSON.stringify(objToArray(json_data))
+                console.log(resp.status)
+                console.log(resp)
+                if (resp.code == 200 && resp.status == 'success') {
+                    $('#user_registration_identifier').val(resp.data.user.user_registration_identifier)
+                    $('.otp-pop-up').removeClass('d-none');
+                    $('#loader_wrapper').addClass('d-none')
+                    $('#otp-1').focus()
+
+                }
+                else {
+                    $('#loader_wrapper').addClass('d-none')
+                    // Swal.fire(
+                    //     'Validation Error!',
+                    //     resp.message,
+                    //     'error'
+                    // )
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validation Error',
+                        text: resp.message,
+                        backdrop: '#eee'
+                    })
+
+                }
+            },
+            error: function (response) {
+                $('#loader_wrapper').addClass('d-none')
+                console.log(response)
+                alert(response)
+            },
+        }) 
+    }
+
 
 })
+
+

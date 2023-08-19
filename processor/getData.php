@@ -387,10 +387,11 @@ class getData
         return 'ok';
     }
 
-
-
-    public function giveRefpoints($receiver_number,$company_id)
+    public function giveRefpoints()
     {
+        $receiver_number = $_POST['$receiver_number'];
+        $company_id = $_POST['$company_id'];
+
         $query = "SELECT * from requests WHERE receiver_number = ? LIMIT 1";
         $stmt = $this->db_conn->prepare($query);
         $stmt->execute(array($receiver_number));

@@ -1,14 +1,3 @@
-<?php
-include('../processor/processor.php');
-$reciver = $_GET['number'];
-$company_id = $_GET['company_id'];
-
-// $obj->giveRefpoints($reciver,$company_id);
-die;
-// echo "<pre>" . var_export($id,true) . "</pre>";
-// die;
-// $resp = $obj->getPoints();
-?>
 <!doctype html>
 <html lang="en">
 

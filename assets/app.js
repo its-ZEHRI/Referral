@@ -357,9 +357,10 @@ $(document).ready(function () {
         }
         // var formdata = {
         //     'company_id': "6",
-        //     'receiver_number': "3441921116",
+        //     'receiver_number': "3441921117",
         //     'op': 'give_refpoints'
         // }
+        console.log(formdata)
         $.ajax({
             type: 'POST',
             url: `processor/ajaxprocessor.php`,
@@ -367,7 +368,6 @@ $(document).ready(function () {
             success: function (response) {
                 const resp = JSON.parse(response);
                 // JSON.stringify(objToArray(json_data))
-                console.log(resp.status)
                 console.log(resp)
                 $('#loader_wrapper').addClass('d-none')
                 if (resp.status == 'success') {
@@ -376,7 +376,11 @@ $(document).ready(function () {
                         title: 'Add Points Success',
                         text: resp.message,
                         backdrop: '#eee'
-                    }) 
+                    }).then((result) => {
+                        
+                        window.location.href = "/Referral/refpoints.php";
+                        
+                    })
                 }
                 else {
                     Swal.fire({

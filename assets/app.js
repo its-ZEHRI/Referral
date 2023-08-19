@@ -256,8 +256,10 @@ $(document).ready(function () {
                         confirmButtonText: 'Ok',
                     }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */
-                        window.location.href = "/Referral/refpoints.php?number="+$('#number').val()+"&cumpany_id="+$('#company_id').val();
-                        location.reload();I
+                        console.log('call to add points');
+                        var resp = addPoints()
+                        // window.location.href = "/Referral/refpoints.php?number="+$('#number').val()+"&cumpany_id="+$('#company_id').val();
+                        // location.reload();I
                     })
                 }
                 else {
@@ -341,7 +343,23 @@ $(document).ready(function () {
         $("#send_invitation_link").attr("href", hrefValue);
     });
 
+    $(this).on('click', '#ref_button', function (event) { 
+        addPoints();
+     })
+
     function addPoints(){
+        console.log('call recived');
+        $('#loader_wrapper').removeClass('d-none')
+        var formdata = {
+            'company_id': $('#company_id').val(),
+            'receiver_number': $('#number').val(),
+            'op': 'give_refpoints'
+        }
+        // var formdata = {
+        //     'company_id': "6",
+        //     'receiver_number': "3441921116",
+        //     'op': 'give_refpoints'
+        // }
         $.ajax({
             type: 'POST',
             url: `processor/ajaxprocessor.php`,
@@ -351,12 +369,10 @@ $(document).ready(function () {
                 // JSON.stringify(objToArray(json_data))
                 console.log(resp.status)
                 console.log(resp)
-                if (resp.code == 200 && resp.status == 'success') {
-                    $('#user_registration_identifier').val(resp.data.user.user_registration_identifier)
-                    $('.otp-pop-up').removeClass('d-none');
-                    $('#loader_wrapper').addClass('d-none')
-                    $('#otp-1').focus()
-
+                $('#loader_wrapper').addClass('d-none')
+                if (resp.status == 'success') {
+                    
+    
                 }
                 else {
                     $('#loader_wrapper').addClass('d-none')
@@ -367,11 +383,11 @@ $(document).ready(function () {
                     // )
                     Swal.fire({
                         icon: 'error',
-                        title: 'Validation Error',
+                        title: 'Add Points Error',
                         text: resp.message,
                         backdrop: '#eee'
                     })
-
+    
                 }
             },
             error: function (response) {
@@ -384,5 +400,6 @@ $(document).ready(function () {
 
 
 })
+
 
 

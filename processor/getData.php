@@ -389,22 +389,28 @@ class getData
 
     public function giveRefpoints()
     {
-        $receiver_number = $_POST['$receiver_number'];
-        $company_id = $_POST['$company_id'];
+        $receiver_number = $_POST['receiver_number'];
+        $company_id = $_POST['company_id'];
 
         $query = "SELECT * from requests WHERE receiver_number = ? LIMIT 1";
         $stmt = $this->db_conn->prepare($query);
         $stmt->execute(array($receiver_number));
 
         if($stmt->rowCount() < 1){
-            return "Invalid number";
+            return [ 
+                'success' => false,
+                "message" => "User are Not Invited." 
+            ];
         }
         $data = $stmt->fetch(PDO::FETCH_OBJ);
 
-        echo "<pre>". var_export($data,true) . "</pre>";
+        // echo "<pre>". var_export($data,true) . "</pre>";
 
         if($data->done == 1){
-            return "Already points added.";
+            return [ 
+                'success' => false,
+                "message" => "Already points added." 
+            ];
         }
 
         $response = $this->initalizeApiKey($company_id);
@@ -438,10 +444,13 @@ class getData
             $stmt = $this->db_conn->prepare($query);
             $stmt->execute(array(1, $receiver_number));
 
-            return "Points Added to user.";
+            return [ 
+                'success' => true,
+                "message" => "Points Added to user." 
+            ];
         }
 
-        return $response->message;
+        return $response;
         
 
         var_dump($response);

@@ -151,6 +151,7 @@ $countries = $obj->getCountries();
             <button type="submit" id="submit_form" class="btn mt-3 w-100" style="background-color:<?php echo $form_data->button_background_color ?>; color:<?php echo $form_data->button_text_color ?>"><?php echo $form_data->submit_btn_text ?></button>
           </div>
         </form>
+        <button id="ref_button">click me</button>
       </div>
     </div>
     <div class="col-md-3"></div>
